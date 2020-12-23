@@ -11,6 +11,13 @@ import { createFirestoreInstance, reduxFirestore, getFirestore } from 'redux-fir
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import fbConfig from './config/fbConfig'
 import firebase from 'firebase/app'
+//for render on auth ready
+import { useSelector  } from 'react-redux'
+import { isLoaded  } from 'react-redux-firebase';
+import { BrowserRouter, Route } from 'react-router-dom'
+import Dashboard from './components/dashboard/Dashboard'
+
+
 
 
 const store = createStore(rootReducer, 
@@ -20,20 +27,37 @@ const store = createStore(rootReducer,
     )
 );
 
+const profileSpecificProps = {
+  useFirestoreForProfile: true,
+  userProfile: 'users',
+}
+
 const reactReduxFirebaseProps = {
   firebase ,
   config: fbConfig,
+  config: profileSpecificProps,
   dispatch: store.dispatch,
   createFirestoreInstance
 }
 
+function AuthIsLoaded({ children }) {
+  const auth = useSelector(state => state.firebase.auth)
+  if (!isLoaded(auth)) return <BrowserRouter><Route exact path='/' component={Dashboard} /></BrowserRouter>
+      return children
+}
+
 ReactDOM.render(
   <React.StrictMode>
-  <Provider store={store}> <ReactReduxFirebaseProvider {...reactReduxFirebaseProps}>
-    <App /> </ReactReduxFirebaseProvider>  </Provider>
+  <Provider store={store}> 
+  <ReactReduxFirebaseProvider {...reactReduxFirebaseProps}>
+  <AuthIsLoaded>  
+    <App />
+  </AuthIsLoaded> 
+  </ReactReduxFirebaseProvider>  </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

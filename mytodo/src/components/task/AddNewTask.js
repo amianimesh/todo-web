@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 
 class AddTask extends Component {
     state = {
-        title: ''
+        title: '',
+        isCompleted: false
     }
 
     handleChange = (e) => {
-        console.log(e);
         this.setState({
             [e.target.id]: e.target.value
         })
@@ -19,14 +19,13 @@ class AddTask extends Component {
         this.props.addTask(this.state);
     }
 
-
     render() {
         return(
             <div className='AddTask section container'>
                 <form onSubmit={this.handleSubmit}>
                     <h5 className='green-text darken-2'>Add New Task:</h5>
                     <input id='title' className='materialize-textarea' onChange={this.handleChange}></input>
-                    <button className='btn-small red darken-1'>Submit</button>
+                    <button className='btn-small'>Submit</button>
                 </form>
             </div>
         )

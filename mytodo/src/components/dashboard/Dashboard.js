@@ -26,6 +26,8 @@ class Dashboard extends Component {
     }
 }
 
+
+
 const mapStateToProps = (state) => {
     console.log(state);
     return{
@@ -33,6 +35,7 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth
     }
 }
+
 
 export default compose(
     connect(mapStateToProps),

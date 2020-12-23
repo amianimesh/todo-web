@@ -12,3 +12,19 @@ export const addTask = (task) => {
         })
     }
 }
+
+export const deletetask = (id) => {
+    return(dispatch, getState, {getFirestore}) => {
+      const firestore = getFirestore();
+
+      firestore.collection('tasks').doc(id).delete().then(() => {
+          dispatch({ type: 'DELETE_TASK_SUCCESS' });
+        }).catch(err => {
+          dispatch({ type: 'DELETE_TASK_ERROR', err });
+        })
+    }
+}
+
+export const updatetask = (task) => {
+
+}
