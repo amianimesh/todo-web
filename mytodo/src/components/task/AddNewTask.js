@@ -17,15 +17,16 @@ class AddTask extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.addTask(this.state);
+        
     }
 
     render() {
         return(
             <div className='AddTask section container'>
                 <form onSubmit={this.handleSubmit}>
-                    <h5 className='green-text darken-2'>Add New Task:</h5>
-                    <input id='title' className='materialize-textarea' onChange={this.handleChange}></input>
-                    <button className='btn-small'>Submit</button>
+                    <h5 className='green-text darken-1'>Add New Task:</h5>
+                    <input id='title' type='text' className='materialize-textarea' onChange={this.handleChange}></input>
+                    <button className='btn-small grey'>Submit</button>
                 </form>
             </div>
         )

@@ -4,7 +4,7 @@ import Navbar from './components/layout/Navbar'
 import Dashboard from './components/dashboard/Dashboard'
 import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
-
+  
 
 
 class App extends Component {

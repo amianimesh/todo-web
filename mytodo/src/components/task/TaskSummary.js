@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { deletetask } from '../../store/action/taskAction'
+import { deletetask, updatetask } from '../../store/action/taskAction'
 import moment from 'moment';
 
 
 
 
-const TaskSummary = (props) => {
-    const { task, dispatchDeletetask } = props;
-    return(
-        <div className='card z-depth-0'>
-            <div className='card-content'>
-                <span className='card-title'>{task.title} </span>
-                <div className='card-action grey lighten-4'>
-                    <p>{ moment(task.createdOn.toDate()).calendar() }</p>
-                    <p>Due Date</p>
+class TaskSummary extends Component {
+    render() {
+        const { task, dispatchDeletetask, dispatchUpdateTask } = this.props;
+
+
+        return(
+            <div className='card z-depth-0'>
+                <div className='card-content'>
+                    <span className='card-title' style={task.isCompleted ? {'text-decoration': 'line-through'} : {}}> {task.title} </span>
+                    <div className='card-action grey lighten-4'>
+                        <p>{ moment(task.createdOn.toDate()).calendar() }</p>
+                        <p>Due Date</p>
+                    </div>
+                    <button className='btn-small red ' onClick={e=>dispatchDeletetask(e, task.id)}>Delete</button>
+                    <button className='btn-small green right' onClick={e => dispatchUpdateTask(e, task.id)} >Completed</button>
                 </div>
-                <button className='btn-small red' onClick={e=>dispatchDeletetask(e, task.id)}>Delete</button>
             </div>
-        </div>
-    )
+        )
+    }
 }
 
 /*const mapStateToProps = (state, ownProps) => {
@@ -37,7 +42,11 @@ const matchDispatchToProps = (dispatch) => {
     return {
         dispatchDeletetask: (e, id) => {
             e.preventDefault();
-            dispatch(deletetask(id))
+            dispatch(deletetask(id))},
+
+        dispatchUpdateTask: (e, id) => {
+            e.preventDefault();
+            dispatch(updatetask(id))
         }
     }
 }

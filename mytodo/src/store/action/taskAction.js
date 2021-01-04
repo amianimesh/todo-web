@@ -25,6 +25,39 @@ export const deletetask = (id) => {
     }
 }
 
-export const updatetask = (task) => {
+export const updatetask = (id) => {
+    return(dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
 
+        firestore.collection('tasks').doc(id).get().then((doc) => {
+            if (doc.exists) {
+                return doc.ref.update({ isCompleted: !doc.data().isCompleted });
+            } else {
+                // ghgh
+            }
+        }).then(() => {
+            dispatch({type: 'UPDATE_SUCCESS'});
+        }).catch((err) => {
+            dispatch({type: 'ERR_UPDATING'});
+        })
+    }
 }
+
+
+/*.doc(id)
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          return doc.ref.update({ completed: !doc.data().completed });
+        } else {
+          // Throw an error
+        }
+      })
+      .then(function () {
+        console.log('Todo successfully updated!');
+      })
+      .catch(function (error) {
+        // The document probably doesn't exist.
+        console.error('Error updating todo: ', error);
+      });
+  };*/
